@@ -17,6 +17,6 @@ jobs:
         server: ${{ secrets.FTP_SERVER }}
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
-        local-dir: ./it/  # Корень репозитория
+        local-dir: ./  # Корень репозитория
         server-dir: /it/  # Корень на FTP (можно указать подпапку)
         dangerous-clean-slate: true  # Полная перезапись файлов

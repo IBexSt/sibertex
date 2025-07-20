@@ -1,0 +1,44 @@
+
+
+.vega-pager{
+    list-style-type: none;
+    margin-top: 20px;
+    text-align: left;
+}
+.vega-pager li{
+    display: inline-block;
+}
+.vega-pager li a{
+    text-decoration: none;
+    border: 1px solid #aaa;
+    padding: 3px 8px;
+    border-radius: 2px;
+    cursor: pointer;
+    user-select: none;
+}
+.vega-pager li.hidden a{
+    color: #aaa;
+    cursor: default;
+}
+.vega-pager li.next a{
+    padding: 3px 25px;
+}
+.vega-pager li.selected a{
+    background: #ff9100;
+    color: #fff;
+    cursor: default;
+}
+.vega-pager .per-page-block{
+    border: 1px solid #aaa;
+    border-radius: 2px;
+    overflow: hidden;
+    vertical-align: -6.5px;
+    margin-left: 2px;
+    display: inline-block;
+}
+.vega-pager select{
+    padding: 1px 0;
+    background: #eee;
+    border: none;
+    margin: 0!important;
+}

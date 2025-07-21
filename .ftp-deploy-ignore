@@ -1,4 +1,4 @@
 .git*
 .github/
 README.md
-_imgs/
+_imgs/**

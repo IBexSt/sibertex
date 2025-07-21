@@ -19,4 +19,5 @@ jobs:
         password: ${{ secrets.FTP_PASSWORD }}
         local-dir: ./         # Откуда берутся файлы
         server-dir: /it/      # Куда они заливаются	
-        log-level: verbose
+        exclude: |
+            _imgs/**

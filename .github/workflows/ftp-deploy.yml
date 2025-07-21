@@ -21,3 +21,7 @@ jobs:
         server-dir: /it/      # Куда они заливаются	
         exclude: |
             _imgs/**
+            .git/**
+            .github/**
+            .DS_Store
+            README.md

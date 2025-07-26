@@ -215,7 +215,7 @@ header-main-page">
                         <div class="subtitle mt-28">Преимущества ИТ-аутсорсинга</div>
                     </div>
                     <div class="col-xs-9 col-sm-12">
-                        <div class="title mb-mt-20"> Не тратьте время на поиск дорогих сотрудников в штат — <span>работайте сразу  с профессионалами</span></div>
+                        <div class="title mb-mt-20"> Не тратьте время на поиск дорогих сотрудников в штат — <span>работайте сразу  с профессионалами</span></div>
                     </div>
                 </div>            
             <div class="row services-values-card-row">
@@ -403,7 +403,7 @@ header-main-page">
             <img src="assets/img/logo-big.svg" class="about-banner__img" alt="">
             <div class="about-banner__info">
                 <div class="about-banner__dsc">
-                    Возьмём заботу о компьютерах, серверах и сетевом оборудовании на себя
+                    Возьмём заботу о компьютерах, серверах и сетевом оборудовании на себя
                 </div>
                 <a href="/about/" class="button button--white">Больше о компании</a>
             </div>
@@ -667,14 +667,14 @@ header-main-page">
                         <input id="modalDays" type="hidden" name="days" value="5">
 						
                         <div class="input-wrap">
-                            <input type="text" name="f_name" class="input" placeholder="Имя*" autocomplete="name" aria-invalid="">
+                            <input type="text" name="f_name" class="input" placeholder="Имя*" required>
                         </div>
 						
                         <div class="input-wrap">
-                            <input type="text" name="f_email" class="input email" placeholder="Email*" autocomplete="email" aria-invalid="">
+                            <input type="text" name="f_email" class="input email" placeholder="Email*" required>
                         </div>
                         <div class="input-wrap">
-                            <input type="text" name="f_phone" class="input phone" placeholder="Номер телефона" autocomplete="tel" aria-invalid="">
+                            <input type="text" name="f_phone" class="input phone" placeholder="Номер телефона" required>
                         </div>
 						
 						                <div class="form-button-wrap">
@@ -717,6 +717,7 @@ header-main-page">
                 <input type="hidden" name="page_name" value="Заявка на аудит и консультацию">
                 <input type="hidden" name="page_url" value="https://sibertex.ru/">
                 <input type="hidden" name="type" value="audit">
+                <input type="hidden" name="to_email" value="info@sibertex.ru">
             </form>
             <script>
                 function auditlSubmitHandler(callbacks) {
@@ -808,7 +809,7 @@ header-main-page">
                 <div class="footer-block">
                     <span class="footer__title">Отдел продаж:</span>
 <ul>
-    <li class="contact__link"><a href="mailto:sales@5ND32WJjcN0S.pro">sales@5ND32WJjcN0S.pro</a></li>
+    <li class="contact__link"><a href="mailto:sale@sibertex.ru">sale@sibertex.ru</a></li>
     <li class="contact__link"><a href="tel:+79095412611">+7 (909) 541-26-11</a></li>
 </ul>
 <span class="footer__list-dsc">пн-пт с 9:00 до 18:00</span>
@@ -974,6 +975,7 @@ header-main-page">
             <input type="hidden" name="page_name" value="Обратный звонок в течение 15 минут">
             <input type="hidden" name="page_url" value="https://sibertex.ru/">
             <input type="hidden" name="type" value="feedback">
+            <input type="hidden" name="to_email" value="info@sibertex.ru">
         </form>
         <script>
             function contacts2SubmitHandler(callbacks) {
@@ -988,7 +990,8 @@ header-main-page">
 
     <div class="message-success hide">
         <div class="title-big mt-24">Ваш запрос отправлен</div>
-        <div class="message-success__dsc">Спасибо за оставленную заявку. Мы перезвоним вам в ближайшие 24 часа и ответим на все вопросы.
+        <div class="message-success__dsc">
+            Спасибо за оставленную заявку. Мы перезвоним вам в ближайшие 24 часа и ответим на все вопросы.
         </div>
         <button class="button button-success mt-80">Хорошо!</button>
     </div>
@@ -1227,6 +1230,7 @@ header-main-page">
     <input type="hidden" name="page_name" value="Получить коммерческое предложение">
     <input type="hidden" name="page_url" value="https://sibertex.ru/">
     <input type="hidden" name="type" value="calc_price">
+    <input type="hidden" name="to_email" value="info@sibertex.ru">
 
 </form>
 <script>
@@ -1321,6 +1325,7 @@ header-main-page">
             <input type="hidden" name="page_name" value="Тарифы">
             <input type="hidden" name="page_url" value="https://sibertex.ru/">
             <input type="hidden" name="type" value="tarifs">
+            <input type="hidden" name="to_email" value="info@sibertex.ru">
         </form>
         <script>
             function tarifSubmitHandler(callbacks) {
@@ -1411,5 +1416,90 @@ header-main-page">
 
     <script src="https://api-maps.yandex.ru/2.1/?apikey=1a753169-d634-4213-9dd2-b5e4b6fc0fb9&lang=ru_RU" type="text/javascript"></script>
 <script src="assets/js/common_1723745816.js"></script>
+
+<script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+<script>
+  (function(){
+    emailjs.init("HiQLCTZH2wzqbc8NT");
+  })();
+</script>
+
+<script>
+document.getElementById('formAudit').addEventListener('submit', function(e) {
+    e.preventDefault();
+    emailjs.sendForm('service_mn732ck', 'template_ktre7wb', this)
+        .then(function() {
+            alert('Спасибо! Ваша заявка отправлена.');
+        }, function(error) {
+            alert('Ошибка отправки: ' + JSON.stringify(error));
+        });
+});
+
+document.getElementById('contacts-form2').addEventListener('submit', function(e) {
+    e.preventDefault();
+    var form = this;
+    emailjs.sendForm('service_mn732ck', 'template_ktre7wb', form)
+        .then(function() {
+            // Скрываем форму, показываем красивое сообщение
+            form.classList.add('hide');
+            var successMsg = form.parentElement.querySelector('.message-success');
+            if (successMsg) {
+                successMsg.classList.remove('hide');
+            }
+            // Через 3 секунды закрываем модальное окно
+            setTimeout(function() {
+                var modal = form.closest('.modal__container');
+                if (modal) {
+                    modal.classList.remove('active');
+                    modal.style.display = 'none';
+                }
+                form.classList.remove('hide');
+                if (successMsg) {
+                    successMsg.classList.add('hide');
+                }
+            }, 3000);
+        }, function(error) {
+            alert('Ошибка отправки: ' + JSON.stringify(error));
+        });
+});
+
+document.querySelector('.form-price').addEventListener('submit', function(e) {
+    e.preventDefault();
+    var form = this;
+    emailjs.sendForm('service_mn732ck', 'template_ktre7wb', form)
+        .then(function() {
+            // Скрываем форму, показываем красивое сообщение
+            form.classList.add('hide');
+            var successMsg = form.parentElement.querySelector('.message-success');
+            if (successMsg) {
+                successMsg.classList.remove('hide');
+            }
+            // Через 3 секунды закрываем модальное окно
+            setTimeout(function() {
+                var modal = form.closest('.modal__container');
+                if (modal) {
+                    modal.classList.remove('active');
+                    modal.style.display = 'none';
+                }
+                form.classList.remove('hide');
+                if (successMsg) {
+                    successMsg.classList.add('hide');
+                }
+            }, 3000);
+        }, function(error) {
+            alert('Ошибка отправки: ' + JSON.stringify(error));
+        });
+});
+
+document.getElementById('tarif-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    emailjs.sendForm('service_mn732ck', 'template_ktre7wb', this)
+        .then(function() {
+            alert('Спасибо! Ваша заявка отправлена.');
+        }, function(error) {
+            alert('Ошибка отправки: ' + JSON.stringify(error));
+        });
+});
+</script>
 
 </body></html>

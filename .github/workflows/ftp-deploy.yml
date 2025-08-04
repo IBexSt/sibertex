@@ -18,7 +18,7 @@ jobs:
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
         local-dir: ./         # Откуда берутся файлы
-        server-dir: /it/      # Куда они заливаются	
+        server-dir: /      # Куда они заливаются	
         exclude: |
             _imgs/**
             .git/**

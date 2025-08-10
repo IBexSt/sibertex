@@ -55,6 +55,8 @@ function fixedMenu() {
     } else {
         $('.header').removeClass("scroll");
     }
+    // Обновляем тему логотипа при изменении состояния скролла
+    updateLogoTheme();
 }
 
 fixedMenu()
@@ -1405,3 +1407,51 @@ function autosize() {
    }
 }
 autosize();
+
+// Система тем для логотипа
+function updateLogoTheme() {
+    const header = document.querySelector('.header');
+    const logoImages = document.querySelectorAll('.header__logo img[src*="logo_svg"]');
+    const mobileLogoImages = document.querySelectorAll('.mobile-menu-header .header__logo img[src*="logo_svg"]');
+    
+    // Определяем текущую тему
+    const isDarkTheme = header.classList.contains('header—black');
+    const isScrolled = header.classList.contains('scroll');
+    
+    // Выбираем правильный логотип
+    let logoPath = 'logo_svg.svg'; // для светлой темы по умолчанию
+    
+    if (isDarkTheme && !isScrolled) {
+        logoPath = 'logo_svg_white.svg'; // теманя тема
+    }
+    
+    // Обновляем все логотипы
+    [...logoImages, ...mobileLogoImages].forEach(img => {
+        const currentSrc = img.getAttribute('src');
+        const newSrc = currentSrc.replace(/logo_svg[^.]*\.svg/, logoPath);
+        if (currentSrc !== newSrc) {
+            img.setAttribute('src', newSrc);
+        }
+    });
+}
+
+// Наблюдатель за изменениями классов header
+const headerObserver = new MutationObserver(function(mutations) {
+    mutations.forEach(function(mutation) {
+        if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+            updateLogoTheme();
+        }
+    });
+});
+
+// Запускаем наблюдение за header
+document.addEventListener('DOMContentLoaded', function() {
+    const header = document.querySelector('.header');
+    if (header) {
+        headerObserver.observe(header, {
+            attributes: true,
+            attributeFilter: ['class']
+        });
+        updateLogoTheme(); // Инициализация при загрузке
+    }
+});

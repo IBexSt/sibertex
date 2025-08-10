@@ -1276,4 +1276,89 @@ header—black
     
 <script src="../../assets/js/common_1723745816.js"></script>
 
+<script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+<script>
+  (function(){
+    emailjs.init("HiQLCTZH2wzqbc8NT");
+  })();
+</script>
+
+<script>
+document.getElementById('formAudit').addEventListener('submit', function(e) {
+    e.preventDefault();
+    emailjs.sendForm('service_mn732ck', 'template_ktre7wb', this)
+        .then(function() {
+            alert('Спасибо! Ваша заявка отправлена.');
+        }, function(error) {
+            alert('Ошибка отправки: ' + JSON.stringify(error));
+        });
+});
+
+document.getElementById('contacts-form2').addEventListener('submit', function(e) {
+    e.preventDefault();
+    var form = this;
+    emailjs.sendForm('service_mn732ck', 'template_ktre7wb', form)
+        .then(function() {
+            // Скрываем форму, показываем красивое сообщение
+            form.classList.add('hide');
+            var successMsg = form.parentElement.querySelector('.message-success');
+            if (successMsg) {
+                successMsg.classList.remove('hide');
+            }
+            // Через 3 секунды закрываем модальное окно
+            setTimeout(function() {
+                var modal = form.closest('.modal__container');
+                if (modal) {
+                    modal.classList.remove('active');
+                    modal.style.display = 'none';
+                }
+                form.classList.remove('hide');
+                if (successMsg) {
+                    successMsg.classList.add('hide');
+                }
+            }, 3000);
+        }, function(error) {
+            alert('Ошибка отправки: ' + JSON.stringify(error));
+        });
+});
+
+document.querySelector('.form-price').addEventListener('submit', function(e) {
+    e.preventDefault();
+    var form = this;
+    emailjs.sendForm('service_mn732ck', 'template_ktre7wb', form)
+        .then(function() {
+            // Скрываем форму, показываем красивое сообщение
+            form.classList.add('hide');
+            var successMsg = form.parentElement.querySelector('.message-success');
+            if (successMsg) {
+                successMsg.classList.remove('hide');
+            }
+            // Через 3 секунды закрываем модальное окно
+            setTimeout(function() {
+                var modal = form.closest('.modal__container');
+                if (modal) {
+                    modal.classList.remove('active');
+                    modal.style.display = 'none';
+                }
+                form.classList.remove('hide');
+                if (successMsg) {
+                    successMsg.classList.add('hide');
+                }
+            }, 3000);
+        }, function(error) {
+            alert('Ошибка отправки: ' + JSON.stringify(error));
+        });
+});
+
+document.getElementById('tarif-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    emailjs.sendForm('service_mn732ck', 'template_ktre7wb', this)
+        .then(function() {
+            alert('Спасибо! Ваша заявка отправлена.');
+        }, function(error) {
+            alert('Ошибка отправки: ' + JSON.stringify(error));
+        });
+});
+</script>
+
 </body></html>

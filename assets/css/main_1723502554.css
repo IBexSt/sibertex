@@ -460,6 +460,22 @@ ul {
     fill: #fff
 }
 
+        /* Система тем для логотипа */
+        .header—black .header__logo img[src*="logo_svg.svg"] {
+            content: url("../logo_svg_white.svg");
+        }
+
+        /* Для мобильного меню тоже */
+        .header—black .mobile-menu-header .header__logo img[src*="logo_svg.svg"] {
+            content: url("../logo_svg_white.svg");
+        }
+
+/* Для мобильной версии логотипа на черном фоне */
+.header—black .mobile-menu-header .header__logo .hader-logo {
+    filter: brightness(0) saturate(100%) invert(100%);
+    -webkit-filter: brightness(0) saturate(100%) invert(100%);
+}
+
 @media (max-width:900px) {
     .header__links {
         margin-left: 20px
@@ -775,6 +791,11 @@ ul {
     box-shadow: 0 4px 12px rgba(0, 0, 0, .07)
 }
 
+/* Возвращаем логотип к нормальным цветам на главной странице при скролле */
+.header-main-page.scroll .header__logo img[src*="logo_svg_white.svg"] {
+    content: url("../logo_svg.svg");
+}
+
 .header-main-page.scroll .button--small {
     display: block;
     visibility: visible;
@@ -805,6 +826,22 @@ ul {
     background: #fff;
     -webkit-box-shadow: 0 4px 11px rgba(0, 0, 0, .04);
     box-shadow: 0 4px 11px rgba(0, 0, 0, .04)
+}
+
+/* Возвращаем логотип к нормальным цветам при скролле */
+.header.scroll .header__logo img[src*="logo_svg_white.svg"] {
+    content: url("../logo_svg.svg");
+}
+
+/* Для мобильного меню при скролле */
+.header.scroll .mobile-menu-header .header__logo img[src*="logo_svg_white.svg"] {
+    content: url("../logo_svg.svg");
+}
+
+/* Для мобильной версии логотипа при скролле */
+.header.scroll .mobile-menu-header .header__logo .hader-logo {
+    filter: none;
+    -webkit-filter: none;
 }
 
 .header—black.scroll .header__mobile-menu-btn line {

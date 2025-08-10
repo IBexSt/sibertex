@@ -23,6 +23,105 @@
 
     <link rel="stylesheet" href="assets/css/libs_1656056683.css">
     <link rel="stylesheet" href="assets/css/main_1723502554.css">
+    
+    <style>
+        /* Стили для captcha */
+        .captcha-container {
+            margin: 15px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+        }
+        
+        .captcha-question {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .captcha-refresh {
+            background: none;
+            border: none;
+            color: #007bff;
+            cursor: pointer;
+            font-size: 14px;
+            text-decoration: underline;
+            margin-left: 10px;
+        }
+        
+        .captcha-refresh:hover {
+            color: #0056b3;
+        }
+        
+        .captcha-input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        
+        .captcha-error {
+            color: #dc3545;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+        
+        /* Стили для кнопки с задержкой */
+        .button-submit {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .button-submit:disabled {
+            background-color: #6c757d !important;
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+        
+        .button-submit.loading {
+            background-color: #6c757d !important;
+            cursor: not-allowed;
+        }
+        
+        .button-submit.loading::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            top: 50%;
+            left: 50%;
+            margin-left: -10px;
+            margin-top: -10px;
+            border: 2px solid #ffffff;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        
+        /* Счетчик обратного отсчета */
+        .countdown {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-weight: bold;
+            font-size: 14px;
+        }
+    </style>
+    
     <link rel="apple-touch-icon" href="apple-touch-icon-180x180_1679688349.png">
 	<link rel="icon" href="favicon_1679689371.svg" type="image/svg+xml">
             	
@@ -676,9 +775,19 @@ header-main-page">
                         <div class="input-wrap">
                             <input type="text" name="f_phone" class="input phone" placeholder="Номер телефона" required>
                         </div>
+                        
+                        <!-- Captcha -->
+                        <div class="captcha-container">
+                            <div class="captcha-question">
+                                Введите результат: <span id="captcha-question-1"></span>
+                                <button type="button" class="captcha-refresh" onclick="generateCaptcha('1')">Обновить</button>
+                            </div>
+                            <input type="text" name="captcha_answer" class="captcha-input" placeholder="Введите ответ" required>
+                            <div class="captcha-error" id="captcha-error-1">Неверный ответ. Попробуйте еще раз.</div>
+                        </div>
 						
 						                <div class="form-button-wrap">
-                    <button class="button">Отправить</button>
+                    <button class="button button-submit" type="submit" id="submit-btn-1">Отправить</button>
                     <span>Отправляя свои данные, вы соглашаетесь <a href="/privacy/" target="_blank">на обработку персональных данных</a></span>
                 </div>
                  
@@ -964,11 +1073,21 @@ header-main-page">
                     <div class="input-wrap">
                         <input type="text" name="f_phone" class="input phone" placeholder="Номер телефона*" autocomplete="tel" aria-invalid="">
                     </div>
+                    
+                    <!-- Captcha -->
+                    <div class="captcha-container">
+                        <div class="captcha-question">
+                            Введите результат: <span id="captcha-question-2"></span>
+                            <button type="button" class="captcha-refresh" onclick="generateCaptcha('2')">Обновить</button>
+                        </div>
+                        <input type="text" name="captcha_answer" class="captcha-input" placeholder="Введите ответ" required>
+                        <div class="captcha-error" id="captcha-error-2">Неверный ответ. Попробуйте еще раз.</div>
+                    </div>
                 </div>
 
             </div>
             <div class="form-button-wrap">
-                <button class="button">Отправить</button>
+                <button class="button button-submit" type="submit" id="submit-btn-2">Отправить</button>
                 <span>Отправляя свои данные, вы соглашаетесь <a href="/privacy/" target="_blank">на обработку персональных данных</a></span>
             </div>
 
@@ -1202,7 +1321,7 @@ header-main-page">
 
             </div>
 			
-			<div class="col-xs-12 col-sm-12" style="display: none;">
+			            <div class="col-xs-12 col-sm-12" style="display: none;">
 				<div class="conditions">
 					<label class="checkbox">
 						<input type="checkbox" name="f_conditions" checked="checked">
@@ -1211,6 +1330,18 @@ header-main-page">
 					<span class="conditions__dsc">Я принимаю <a href="/privacy/" target="_blank">условия обработки персональных данных</a></span>
 				</div>
 			</div>
+            
+            <!-- Captcha -->
+            <div class="col-xs-12 col-sm-12">
+                <div class="captcha-container">
+                    <div class="captcha-question">
+                        Введите результат: <span id="captcha-question-3"></span>
+                        <button type="button" class="captcha-refresh" onclick="generateCaptcha('3')">Обновить</button>
+                    </div>
+                    <input type="text" name="captcha_answer" class="captcha-input" placeholder="Введите ответ" required>
+                    <div class="captcha-error" id="captcha-error-3">Неверный ответ. Попробуйте еще раз.</div>
+                </div>
+            </div>
 
         </div>
 
@@ -1222,7 +1353,7 @@ header-main-page">
             <div class="modal-footer-buttons" attr-index-tab="1">
                 <div class="button button--stroke button-prev btn-nav-js hidden-opacity">Назад</div>
                 <div class="button button-next btn-nav-js">Далее</div>
-                <button class="button button-submit hide" type="submit">Получить КП</button>
+                <button class="button button-submit hide" type="submit" id="submit-btn-3">Получить КП</button>
             </div>
         </div>
     </div>
@@ -1292,6 +1423,16 @@ header-main-page">
                         <textarea class="textarea" name="text" placeholder="Сообщение*"></textarea>
                         <span class="form-feedback__dsc">* поля, необязательные для заполнения</span>
                     </div>
+                    
+                    <!-- Captcha -->
+                    <div class="captcha-container">
+                        <div class="captcha-question">
+                            Введите результат: <span id="captcha-question-4"></span>
+                            <button type="button" class="captcha-refresh" onclick="generateCaptcha('4')">Обновить</button>
+                        </div>
+                        <input type="text" name="captcha_answer" class="captcha-input" placeholder="Введите ответ" required>
+                        <div class="captcha-error" id="captcha-error-4">Неверный ответ. Попробуйте еще раз.</div>
+                    </div>
                 </div>
                 <div class="col-xs-4 col-sm-12" style="display: none;">
                                 <span class="form-feedback__title">
@@ -1318,7 +1459,7 @@ header-main-page">
                 </div>
             </div>
             <div class="form-button-wrap">
-                <button class="button">Отправить</button>
+                <button class="button button-submit" type="submit" id="submit-btn-4">Отправить</button>
                 <span>Отправляя свои данные, вы соглашаетесь <a href="/privacy/" target="_blank">на обработку персональных данных</a></span>
             </div>
 
@@ -1415,6 +1556,23 @@ header-main-page">
 <script src="js/front_1656056683.js" defer=""></script>
 
     <script src="https://api-maps.yandex.ru/2.1/?apikey=1a753169-d634-4213-9dd2-b5e4b6fc0fb9&lang=ru_RU" type="text/javascript"></script>
+    
+    <!-- Yandex Metrika -->
+    <script type="text/javascript">
+        (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+        (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+        ym(24468002, "init", {
+            clickmap: true,
+            trackLinks: true,
+            accurateTrackBounce: true
+        });
+    </script>
+    <noscript><div><img src="https://mc.yandex.ru/watch/24468002" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+    <!-- /Yandex Metrika -->
+    
 <script src="assets/js/common_1723745816.js"></script>
 
 <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
@@ -1425,19 +1583,149 @@ header-main-page">
 </script>
 
 <script>
-document.getElementById('formAudit').addEventListener('submit', function(e) {
-    e.preventDefault();
-    emailjs.sendForm('service_mn732ck', 'template_ktre7wb', this)
-        .then(function() {
-            alert('Спасибо! Ваша заявка отправлена.');
-        }, function(error) {
-            alert('Ошибка отправки: ' + JSON.stringify(error));
-        });
+// Глобальные переменные для captcha
+var captchaAnswers = {};
+
+// Функция генерации случайного числа
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+// Функция генерации captcha
+function generateCaptcha(formId) {
+    var num1 = getRandomInt(1, 10);
+    var num2 = getRandomInt(1, 10);
+    var answer = num1 + num2;
+    
+    captchaAnswers[formId] = answer;
+    
+    var questionElement = document.getElementById('captcha-question-' + formId);
+    if (questionElement) {
+        questionElement.textContent = num1 + ' + ' + num2 + ' = ?';
+    }
+    
+    // Очищаем поле ввода captcha
+    var captchaInput = document.querySelector('#captcha-question-' + formId).closest('.captcha-container').querySelector('input[name="captcha_answer"]');
+    if (captchaInput) {
+        captchaInput.value = '';
+    }
+    
+    // Скрываем ошибку если она была показана
+    var errorElement = document.getElementById('captcha-error-' + formId);
+    if (errorElement) {
+        errorElement.style.display = 'none';
+    }
+}
+
+// Функция проверки captcha
+function validateCaptcha(formId, userAnswer) {
+    return parseInt(userAnswer) === captchaAnswers[formId];
+}
+
+// Функция задержки кнопки
+function delayButton(buttonId, delaySeconds) {
+    var button = document.getElementById(buttonId);
+    if (!button) return;
+    
+    button.disabled = true;
+    button.classList.add('loading');
+    
+    var countdown = delaySeconds;
+    var countdownElement = document.createElement('span');
+    countdownElement.className = 'countdown';
+    countdownElement.textContent = countdown;
+    button.appendChild(countdownElement);
+    
+    var interval = setInterval(function() {
+        countdown--;
+        countdownElement.textContent = countdown;
+        
+        if (countdown <= 0) {
+            clearInterval(interval);
+            button.disabled = false;
+            button.classList.remove('loading');
+            button.removeChild(countdownElement);
+        }
+    }, 1000);
+}
+
+// Функция показа ошибки captcha
+function showCaptchaError(formId) {
+    var errorElement = document.getElementById('captcha-error-' + formId);
+    if (errorElement) {
+        errorElement.style.display = 'block';
+        setTimeout(function() {
+            errorElement.style.display = 'none';
+        }, 1000);
+    }
+}
+
+// Функция сброса формы
+function resetForm(form) {
+    form.reset();
+    // Генерируем новую captcha
+    var formId = form.id;
+    if (formId === 'formAudit') generateCaptcha('1');
+    else if (formId === 'contacts-form2') generateCaptcha('2');
+    else if (formId === 'tarif-form') generateCaptcha('4');
+}
+
+// Инициализация captcha при загрузке страницы
+document.addEventListener('DOMContentLoaded', function() {
+    generateCaptcha('1');
+    generateCaptcha('2');
+    generateCaptcha('3');
+    generateCaptcha('4');
 });
 
+// Обработчик для формы formAudit
+document.getElementById('formAudit').addEventListener('submit', function(e) {
+    e.preventDefault();
+    var form = this;
+    var userAnswer = form.querySelector('input[name="captcha_answer"]').value;
+    
+    if (!validateCaptcha('1', userAnswer)) {
+        showCaptchaError('1');
+        generateCaptcha('1');
+        return;
+    }
+    
+    var submitBtn = document.getElementById('submit-btn-1');
+    submitBtn.disabled = true;
+    submitBtn.classList.add('loading');
+    
+    emailjs.sendForm('service_mn732ck', 'template_ktre7wb', form)
+        .then(function() {
+            alert('Спасибо! Ваша заявка отправлена.');
+            resetForm(form);
+            submitBtn.disabled = false;
+            submitBtn.classList.remove('loading');
+        }, function(error) {
+            alert('Ошибка отправки: ' + JSON.stringify(error));
+            submitBtn.disabled = false;
+            submitBtn.classList.remove('loading');
+        });
+    
+    // Задержка на 1 секунды
+    delayButton('submit-btn-1', 1);
+});
+
+// Обработчик для формы contacts-form2
 document.getElementById('contacts-form2').addEventListener('submit', function(e) {
     e.preventDefault();
     var form = this;
+    var userAnswer = form.querySelector('input[name="captcha_answer"]').value;
+    
+    if (!validateCaptcha('2', userAnswer)) {
+        showCaptchaError('2');
+        generateCaptcha('2');
+        return;
+    }
+    
+    var submitBtn = document.getElementById('submit-btn-2');
+    submitBtn.disabled = true;
+    submitBtn.classList.add('loading');
+    
     emailjs.sendForm('service_mn732ck', 'template_ktre7wb', form)
         .then(function() {
             // Скрываем форму, показываем красивое сообщение
@@ -1457,15 +1745,36 @@ document.getElementById('contacts-form2').addEventListener('submit', function(e)
                 if (successMsg) {
                     successMsg.classList.add('hide');
                 }
-            }, 3000);
+                resetForm(form);
+                submitBtn.disabled = false;
+                submitBtn.classList.remove('loading');
+            }, 1000);
         }, function(error) {
             alert('Ошибка отправки: ' + JSON.stringify(error));
+            submitBtn.disabled = false;
+            submitBtn.classList.remove('loading');
         });
+    
+    // Задержка на 1 секунды
+    delayButton('submit-btn-2', 1);
 });
 
+// Обработчик для формы form-price
 document.querySelector('.form-price').addEventListener('submit', function(e) {
     e.preventDefault();
     var form = this;
+    var userAnswer = form.querySelector('input[name="captcha_answer"]').value;
+    
+    if (!validateCaptcha('3', userAnswer)) {
+        showCaptchaError('3');
+        generateCaptcha('3');
+        return;
+    }
+    
+    var submitBtn = document.getElementById('submit-btn-3');
+    submitBtn.disabled = true;
+    submitBtn.classList.add('loading');
+    
     emailjs.sendForm('service_mn732ck', 'template_ktre7wb', form)
         .then(function() {
             // Скрываем форму, показываем красивое сообщение
@@ -1485,20 +1794,50 @@ document.querySelector('.form-price').addEventListener('submit', function(e) {
                 if (successMsg) {
                     successMsg.classList.add('hide');
                 }
-            }, 3000);
+                resetForm(form);
+                submitBtn.disabled = false;
+                submitBtn.classList.remove('loading');
+            }, 1000);
         }, function(error) {
             alert('Ошибка отправки: ' + JSON.stringify(error));
+            submitBtn.disabled = false;
+            submitBtn.classList.remove('loading');
         });
+    
+    // Задержка на 1 секунды
+    delayButton('submit-btn-3', 1);
 });
 
+// Обработчик для формы tarif-form
 document.getElementById('tarif-form').addEventListener('submit', function(e) {
     e.preventDefault();
-    emailjs.sendForm('service_mn732ck', 'template_ktre7wb', this)
+    var form = this;
+    var userAnswer = form.querySelector('input[name="captcha_answer"]').value;
+    
+    if (!validateCaptcha('4', userAnswer)) {
+        showCaptchaError('4');
+        generateCaptcha('4');
+        return;
+    }
+    
+    var submitBtn = document.getElementById('submit-btn-4');
+    submitBtn.disabled = true;
+    submitBtn.classList.add('loading');
+    
+    emailjs.sendForm('service_mn732ck', 'template_ktre7wb', form)
         .then(function() {
             alert('Спасибо! Ваша заявка отправлена.');
+            resetForm(form);
+            submitBtn.disabled = false;
+            submitBtn.classList.remove('loading');
         }, function(error) {
             alert('Ошибка отправки: ' + JSON.stringify(error));
+            submitBtn.disabled = false;
+            submitBtn.classList.remove('loading');
         });
+    
+    // Задержка на 1 секунды
+    delayButton('submit-btn-4', 1);
 });
 </script>
 

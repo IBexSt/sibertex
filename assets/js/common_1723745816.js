@@ -55,6 +55,8 @@ function fixedMenu() {
     } else {
         $('.header').removeClass("scroll");
     }
+    // Обновляем тему логотипа при изменении состояния скролла
+    updateLogoTheme();
 }
 
 fixedMenu()
@@ -249,7 +251,9 @@ $("#contacts-form").each(function () {
                         scrollTop: $(".message-success").offset().top - 150
                     }, 400);
                     // $('.message-success')
-					ym(24468002,'reachGoal','request');
+					if (typeof ym !== 'undefined') {
+						ym(24468002,'reachGoal','request');
+					}
                 },
                 'error': function () {
                     console.log('error');
@@ -303,7 +307,9 @@ $("#contacts-form2").each(function () {
                         scrollTop: $(".message-success").offset().top - 150
                     }, 400);
                     // $('.message-success')
-					ym(24468002,'reachGoal','request');
+					if (typeof ym !== 'undefined') {
+						ym(24468002,'reachGoal','request');
+					}
                 },
                 'error': function () {
                     console.log('error');
@@ -389,7 +395,9 @@ $("#formAudit").each(function () {
                         scrollTop: $(".message-success").offset().top - 150
                     }, 400);
                     // $('.message-success')
-					ym(24468002,'reachGoal','request');
+					if (typeof ym !== 'undefined') {
+						ym(24468002,'reachGoal','request');
+					}
                 },
                 'error': function () {
                     console.log('error');
@@ -477,7 +485,9 @@ $("#tarif-form").each(function () {
                         scrollTop: $(".message-success").offset().top - 150
                     }, 400);
                     // $('.message-success')
-					ym(24468002,'reachGoal','request');
+					if (typeof ym !== 'undefined') {
+						ym(24468002,'reachGoal','request');
+					}
                 },
                 'error': function () {
                     console.log('error');
@@ -546,7 +556,9 @@ $(".form-price").each(function () {
                     $(form).closest('.form-block').find('.message-success').removeClass('hide')
 
                     // $('.message-success')
-					ym(24468002,'reachGoal','request');
+					if (typeof ym !== 'undefined') {
+						ym(24468002,'reachGoal','request');
+					}
                 },
                 'error': function () {
                     console.log('error');
@@ -677,7 +689,9 @@ class GraphModal {
             this.options.isOpen(this), this.modalContainer.classList.add("animate-open"), this.isOpen = !0, this.focusTrap()
         }, this.speed)
 		
-		ym(24468002,'reachGoal','calculator_open');
+		if (typeof ym !== 'undefined') {
+			ym(24468002,'reachGoal','calculator_open');
+		}
     }
     close() {
         let that = this
@@ -1020,7 +1034,9 @@ function costCalculation() {
     if ($('.modal').hasClass('is-open')) {
         $('.modal-footer__price').text(`от ${sumOptimal.toLocaleString('ru-RU')} ₽`)
 		
-		ym(24468002,'reachGoal','calculator');
+		if (typeof ym !== 'undefined') {
+			ym(24468002,'reachGoal','calculator');
+		}
     }
 
     if (($('.tarifs').length) && (!$('.modal').hasClass('is-open'))) {
@@ -1036,7 +1052,9 @@ function costCalculation() {
         $('.t19.p9 span').text(priceTariffImproved.toLocaleString() + " ₽")
         $('.t20.p9 span').text(priceTariffAdvanced.toLocaleString() + " ₽")
 		
-		ym(24468002,'reachGoal','calculator');
+		if (typeof ym !== 'undefined') {
+			ym(24468002,'reachGoal','calculator');
+		}
     }
 
 }
@@ -1405,3 +1423,51 @@ function autosize() {
    }
 }
 autosize();
+
+// Система тем для логотипа
+function updateLogoTheme() {
+    const header = document.querySelector('.header');
+    const logoImages = document.querySelectorAll('.header__logo img[src*="logo_svg"]');
+    const mobileLogoImages = document.querySelectorAll('.mobile-menu-header .header__logo img[src*="logo_svg"]');
+    
+    // Определяем текущую тему
+    const isDarkTheme = header.classList.contains('header—black');
+    const isScrolled = header.classList.contains('scroll');
+    
+    // Выбираем правильный логотип
+    let logoPath = 'logo_svg.svg'; // для светлой темы по умолчанию
+    
+    if (isDarkTheme && !isScrolled) {
+        logoPath = 'logo_svg_white.svg'; // теманя тема
+    }
+    
+    // Обновляем все логотипы
+    [...logoImages, ...mobileLogoImages].forEach(img => {
+        const currentSrc = img.getAttribute('src');
+        const newSrc = currentSrc.replace(/logo_svg[^.]*\.svg/, logoPath);
+        if (currentSrc !== newSrc) {
+            img.setAttribute('src', newSrc);
+        }
+    });
+}
+
+// Наблюдатель за изменениями классов header
+const headerObserver = new MutationObserver(function(mutations) {
+    mutations.forEach(function(mutation) {
+        if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+            updateLogoTheme();
+        }
+    });
+});
+
+// Запускаем наблюдение за header
+document.addEventListener('DOMContentLoaded', function() {
+    const header = document.querySelector('.header');
+    if (header) {
+        headerObserver.observe(header, {
+            attributes: true,
+            attributeFilter: ['class']
+        });
+        updateLogoTheme(); // Инициализация при загрузке
+    }
+});
